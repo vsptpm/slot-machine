@@ -21,7 +21,7 @@ const SlotMachine = forwardRef((props, ref) => {
   const [isPrizeWon, setIsPrizeWon] = useState(false);
   const [prizeImage, setPrizeImage] = useState(prizeWon);
   const spinDuration = 5000;
-  const totalSpins = 3;
+  const totalSpins = 15;
   const spinSteps = 30;
   const doorsCount = 6;
   const doorsRef = useRef([]);
@@ -60,7 +60,7 @@ const SlotMachine = forwardRef((props, ref) => {
       }
       setTimeout(() => {
         setIsPrizeWon(true);
-      }, 1000);
+      }, 2500);
     }
   };
 
