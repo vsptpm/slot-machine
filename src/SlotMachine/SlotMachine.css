@@ -48,3 +48,9 @@
   /* overflow: hidden; */
   height: 100%;
 }
+.prize-won {
+  position: absolute;
+  width: 30%;
+  top: 30%;
+  right: 34%;
+}

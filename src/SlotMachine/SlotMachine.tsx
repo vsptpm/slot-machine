@@ -1,4 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, {
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+  useEffect,
+} from "react";
 import "./SlotMachine.css";
 import slotBg from "../assets/slotImage.png";
 import numberOne from "../assets/numbers/1.png";
@@ -7,19 +13,32 @@ import numberThree from "../assets/numbers/3.png";
 import numberFour from "../assets/numbers/4.png";
 import numberFive from "../assets/numbers/5.png";
 import numberSix from "../assets/numbers/6.png";
+import prizeWon from "../assets/prize.png";
+import prizeWonGlow from "../assets/prizeGlow.png";
 
-const SlotMachine = () => {
+const SlotMachine = forwardRef((props, ref) => {
   const [isSpinning, setIsSpinning] = useState(false);
-  const spinDuration = 5000; // Set the total duration for the entire spin
-  const totalSpins = 3; // Set the total number of spins
-  const spinSteps = 30; // Set the number of steps for each spin
+  const [isPrizeWon, setIsPrizeWon] = useState(false);
+  const [prizeImage, setPrizeImage] = useState(prizeWon);
+  const spinDuration = 5000;
+  const totalSpins = 3;
+  const spinSteps = 30;
   const doorsCount = 6;
   const doorsRef = useRef([]);
+  const togglePrizeImage = () => {
+    setPrizeImage((prevImage) =>
+      prevImage === prizeWon ? prizeWonGlow : prizeWon
+    );
+  };
+  useEffect(() => {
+    const intervalId = setInterval(togglePrizeImage, 500);
+
+    return () => clearInterval(intervalId);
+  }, [togglePrizeImage]);
 
   const moveContainer = () => {
     if (!isSpinning) {
       setIsSpinning(true);
-
       const totalDuration = spinDuration * totalSpins;
       const stepDuration = totalDuration / spinSteps;
 
@@ -39,21 +58,18 @@ const SlotMachine = () => {
           });
         }, step * stepDuration);
       }
-
-      // Reset doors after totalDuration
-      setTimeout(() => {
-        setIsSpinning(false);
-        doorsRef.current.forEach((door) => {
-          door.style.transition = "none";
-          door.style.transform = "translateY(0)";
-        });
-      }, totalDuration);
+      setIsPrizeWon(true);
     }
   };
+
+  useImperativeHandle(ref, () => ({
+    moveContainer,
+  }));
 
   return (
     <>
       <div className="slot-doors">
+        {isPrizeWon && <img src={prizeImage} alt="" className="prize-won" />}
         {[...Array(doorsCount)].map((_, doorNumber) => (
           <div key={doorNumber + 1} className={`door door-${doorNumber + 1}`}>
             <div
@@ -75,9 +91,8 @@ const SlotMachine = () => {
         ))}
         <img className="slot-img" src={slotBg} alt="" />
       </div>
-      <button onClick={moveContainer}>spin</button>
     </>
   );
-};
+});
 
 export default SlotMachine;

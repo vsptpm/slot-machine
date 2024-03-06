@@ -1,14 +1,15 @@
-// import React from "react";
-import SlotMachine from "../SlotMachine/SlotMachine"; // Adjust the path based on your project structure
+import React, { useState, useRef } from "react";
+import SlotMachine from "../SlotMachine/SlotMachine";
 import backgroundImage from "../assets/backdrop.png";
 import baseImage from "../assets/base.png";
 import button from "../assets/btn.png";
 import buttonPressed from "../assets/btn-pressed.png";
 import "./SlotMachineWrapper.css";
-import { useRef, useState } from "react";
 
 const SlotMachineWrapper = () => {
   const [buttonImage, setButtonImage] = useState(button);
+  const slotMachineRef = useRef();
+
   const wrapperStyle = {
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: "cover",
@@ -19,16 +20,20 @@ const SlotMachineWrapper = () => {
     height: "100vh",
     width: "100vw",
   };
+
   const handleMouseDown = () => {
     setButtonImage(buttonPressed);
-    // Add any other logic you want to perform on mouse down
   };
 
   const handleMouseUp = () => {
     setButtonImage(button);
-    // Add any other logic you want to perform on mouse up
   };
-  const slotMachineRef = useRef();
+
+  const handleMoveContainer = () => {
+    if (slotMachineRef.current) {
+      slotMachineRef.current.moveContainer();
+    }
+  };
 
   return (
     <div className="main-wrapper" style={wrapperStyle}>
@@ -39,11 +44,12 @@ const SlotMachineWrapper = () => {
           alt=""
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
+          onClick={handleMoveContainer}
           style={{ cursor: "pointer" }}
         />
         <img className="base-image" src={baseImage} alt="" />
       </div>
-      <SlotMachine />
+      <SlotMachine ref={slotMachineRef} />
     </div>
   );
 };
