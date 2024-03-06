@@ -58,7 +58,9 @@ const SlotMachine = forwardRef((props, ref) => {
           });
         }, step * stepDuration);
       }
-      setIsPrizeWon(true);
+      setTimeout(() => {
+        setIsPrizeWon(true);
+      }, 1000);
     }
   };
 
