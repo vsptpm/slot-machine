@@ -1,0 +1,50 @@
+.slot-img {
+  width: 60%;
+}
+
+.slot-doors {
+  position: relative;
+}
+
+.door {
+  width: 6%;
+  height: 30%;
+  position: absolute;
+  transition: top ease-in-out 0.5s;
+  text-align: center;
+  overflow: hidden;
+}
+
+.door img {
+  width: 100%;
+}
+
+.door-1 {
+  right: 30.5%;
+  top: 48%;
+}
+.door-2 {
+  right: 37.5%;
+  top: 48%;
+}
+.door-3 {
+  right: 44.5%;
+  top: 48%;
+}
+.door-4 {
+  right: 51.5%;
+  top: 48%;
+}
+.door-5 {
+  right: 58.5%;
+  top: 48%;
+}
+.door-6 {
+  right: 65.5%;
+  top: 48%;
+}
+
+.slot {
+  /* overflow: hidden; */
+  height: 100%;
+}
